@@ -1,0 +1,19 @@
+Addr   Description   Type       Values
+------------------------------------------
+0x5000 DirectionX       byte       0x01 = Right, 0xff = Left
+0x5001 DirectionY       byte       0x01 = Down , 0xff = Up
+
+0x5002 HeadX            byte       range of values [ 8-112]
+0x5003 HeadY            byte       range of values [24-112]
+
+0x5004 Collision right  byte       0=no, 1=yes
+0x5005 Collision left   byte       0=no, 1=yes
+0x5006 Collision up     byte       0=no, 1=yes
+0x5007 Collision down   byte       0=no, 1=yes
+
+0x5008 FruitX           byte       range of values [ 8-112]
+0x5009 FruitY           byte       range of values [ 8-112]
+
+0x5010 GameOver         byte       0=no, 1=yes
+0x5011 FruitEat         byte       0=no, 1=yes
+
