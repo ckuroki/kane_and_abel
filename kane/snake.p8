@@ -447,6 +447,8 @@ function draw_game()
 	drwfood()
 	--score
 	local score=tostr(game.score)
+  -- put score into game state buffer
+  poke2(0x5004,game.score)
   --
 	local scoretxt="\*"..4-#score.."0"..score
 	?"\^w\^t"..scoretxt,4,5,7

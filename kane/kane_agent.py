@@ -1,55 +1,11 @@
 import time
 from pynput.keyboard import Key, Controller
+import behavior_tree
 
 # globals
 keyboard = Controller()
 chunk_size = 512
 state = dict()
-
-# Base class for Behavior Tree nodes
-class Node:
-    def run(self):
-        raise NotImplementedError("This method should be overridden.")
-
-# Composite nodes
-class Selector(Node):
-    """Runs each child until one succeeds."""
-    def __init__(self, children):
-        self.children = children
-
-    def run(self):
-        for child in self.children:
-            if child.run():
-                return True
-        return False
-
-class Sequence(Node):
-    """Runs each child until one fails."""
-    def __init__(self, children):
-        self.children = children
-
-    def run(self):
-        for child in self.children:
-            if not child.run():
-                return False
-        return True
-
-# Leaf nodes
-class ActionNode(Node):
-    """Executes an action."""
-    def __init__(self, action):
-        self.action = action
-
-    def run(self):
-        return self.action()
-
-class ConditionNode(Node):
-    """Checks a condition."""
-    def __init__(self, condition):
-        self.condition = condition
-
-    def run(self):
-        return self.condition()
 
 # conditions
 def incomplete_state():
@@ -114,26 +70,26 @@ def not_move():
 # Building the Behavior Tree
 def build_behavior_tree():
     # Leaf nodes
-    condition_incomplete_state = ConditionNode(incomplete_state)
-    condition_fruit_right = ConditionNode(fruit_right)
-    condition_fruit_left = ConditionNode(fruit_left)
-    condition_fruit_up= ConditionNode(fruit_up)
-    condition_fruit_down = ConditionNode(fruit_down)
+    condition_incomplete_state = behavior_tree.ConditionNode(incomplete_state)
+    condition_fruit_right = behavior_tree.ConditionNode(fruit_right)
+    condition_fruit_left = behavior_tree.ConditionNode(fruit_left)
+    condition_fruit_up= behavior_tree.ConditionNode(fruit_up)
+    condition_fruit_down = behavior_tree.ConditionNode(fruit_down)
 
-    action_right = ActionNode(move_right)
-    action_left = ActionNode(move_left)
-    action_up = ActionNode(move_up)
-    action_down = ActionNode(move_down)
-    action_not_move= ActionNode(not_move)
+    action_right = behavior_tree.ActionNode(move_right)
+    action_left = behavior_tree.ActionNode(move_left)
+    action_up = behavior_tree.ActionNode(move_up)
+    action_down = behavior_tree.ActionNode(move_down)
+    action_not_move= behavior_tree.ActionNode(not_move)
 
     # Subtrees
-    right_sequence = Sequence([condition_fruit_right, action_right])
-    left_sequence = Sequence([condition_fruit_left, action_left])
-    up_sequence = Sequence([condition_fruit_up, action_up])
-    down_sequence = Sequence([condition_fruit_down, action_down])
-    incomplete_sequence = Sequence([condition_incomplete_state, action_not_move])
+    right_sequence = behavior_tree.Sequence([condition_fruit_right, action_right])
+    left_sequence = behavior_tree.Sequence([condition_fruit_left, action_left])
+    up_sequence = behavior_tree.Sequence([condition_fruit_up, action_up])
+    down_sequence = behavior_tree.Sequence([condition_fruit_down, action_down])
+    incomplete_sequence = behavior_tree.Sequence([condition_incomplete_state, action_not_move])
 
-    root_selector = Selector([incomplete_sequence,right_sequence,left_sequence,up_sequence, down_sequence])
+    root_selector = behavior_tree.Selector([incomplete_sequence,right_sequence,left_sequence,up_sequence, down_sequence])
 
     return root_selector
 
