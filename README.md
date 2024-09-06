@@ -21,6 +21,6 @@ Kane, will also receive observations and rewards from the game and control the g
 
 ## Game
 
-- Snake game [https://www.lexaloffle.com/bbs/?tid=51123](Snake II) by Liconaj
+- [Snake II](https://www.lexaloffle.com/bbs/?tid=51123) by Liconaj
 
 
